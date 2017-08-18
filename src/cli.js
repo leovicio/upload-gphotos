@@ -62,8 +62,10 @@ const { u: username, p: password, _: files, a: albumNameList } = argParser.argv;
 
   const albumList = [];
   const photos = [];
+  const photosup = [];
   for (let path of files) {
     const photo = await gphotos.upload(path);
+	var photoalbum;
 
     if (albumNameList && albumList.length !== albumNameList.length) {
       for (let albumName of albumNameList) {
@@ -73,12 +75,19 @@ const { u: username, p: password, _: files, a: albumNameList } = argParser.argv;
     }
 
     for (let album of albumList) {
-      await album.addPhoto(photo);
+     photoalbum = await album.addPhoto(photo);
     }
-    photos.push(photo);
+    photos.push({id:photoalbum});
+	photosup.push(photo);
   }
 
+  console.info('Album');
+  console.info(JSON.stringify(albumList, null, 2));
+  console.info('Photo');
+  console.info(JSON.stringify(photosup, null, 2));
+  console.info('Photo in Album');
   console.info(JSON.stringify(photos, null, 2));
+  
 })().catch(function (err) {
   logger.error(err.stack);
   process.abort();
