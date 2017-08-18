@@ -218,6 +218,7 @@ class GPhotos {
       return new Album({
         id: al.shift(),
         title: info[1],
+		key: info[5],
         period: {
           from: new Date(info[2][0]),
           to: new Date(info[2][1])
